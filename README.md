@@ -29,7 +29,7 @@
 | `ewb-bastion` | `ewb-a-public` | `10.10.1.10` / `65.2.152.151` | `i-0fd7f5f80df75d803` |
 | `ewb-app-a` | `ewb-a-private` | `10.10.2.10` / No Public IP | `i-0cacc5d4eefc7935d` |
 | `ewb-app-b` | `ewb-b-private` | `10.20.1.10` / No Public IP | `i-0dbb102baba19380e` |
-| `ewb-a-b-peer` | Peering Connection | N/A | *(Pending creation)* |
+| `ewb-a-b-peer` | Peering Connection | N/A | Active |
 
 *Note: All resources are tagged with `Project = EWB-VPC-Peering` and `Student = Ashish Kumar`.*
 
@@ -141,7 +141,12 @@ Least-privilege inbound firewall rules applied to isolate workloads:
 ---
 
 ### Checkpoint 03: Active Peering Connection
-*(Pending)*
+* **Scope:** Verification of inter-VPC peering status between VPC A and VPC B[cite: 9, 28].
+* **Verification:** `ewb-a-b-peer` accepted and transitioned to `Active` status linking requester `ewb-vpc-a` to accepter `ewb-vpc-b`[cite: 9, 28].
+
+<img src="screenshots/Screenshot 2026-10-31 132356.png" alt="Checkpoint 03 - Active VPC Peering Connection" width="100%" />
+
+*Figure 3.1: Active VPC peering connection (`ewb-a-b-peer`) establishing private cross-VPC network connectivity[cite: 4, 9].*
 
 ---
 
