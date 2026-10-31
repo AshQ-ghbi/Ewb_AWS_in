@@ -151,7 +151,16 @@ Least-privilege inbound firewall rules applied to isolate workloads:
 ---
 
 ### Checkpoint 04: Route Tables (Peering Routes)
-*(Pending)*
+* **Scope:** Cross-VPC route propagation targeting the active peering connection.
+* **Verification:** `ewb-rt-a-private` routes `10.20.0.0/16` to `pcx-0d42ebe35f2e2ad10`; `ewb-rt-b-private` routes `10.10.0.0/16` to `pcx-0d42ebe35f2e2ad10`.
+
+<img src="screenshots/Screenshot 2026-10-31 133331.png" alt="Checkpoint 04A - ewb-rt-a-private Peering Route" width="100%" />
+
+*Figure 4.1: `ewb-rt-a-private` updated with active destination `10.20.0.0/16` targeting peering connection `pcx-0d42ebe35f2e2ad10`.*
+
+<img src="screenshots/Screenshot 2026-10-31 134702.png" alt="Checkpoint 04B - ewb-rt-b-private Peering Route" width="100%" />
+
+*Figure 4.2: `ewb-rt-b-private` updated with active destination `10.10.0.0/16` targeting peering connection `pcx-0d42ebe35f2e2ad10`.*
 
 ---
 
@@ -167,15 +176,31 @@ Least-privilege inbound firewall rules applied to isolate workloads:
 
 ---
 
-### Test 02 & 03: Bi-Directional Ping Success (Post-Peering)
-*(Pending)*
+### Test 02: Forward Ping (Post-Peering Verification)
+* **Scope:** Validating forward ICMP packet delivery across peering connection.
+* **Result:** `ewb-app-a` (`10.10.2.10`) pinging `ewb-app-b` (`10.20.1.10`) achieves `0% packet loss` with average latency of 0.344 ms.
 
-**Routing Explanation:**
-* **Forward Path:** Traffic from `ewb-app-a` targeting `10.20.0.0/16` matches the `ewb-rt-a-private` route pointing to the peering connection (`pcx-`), crossing the peering link into VPC B.
-* **Return Path:** The reply from `ewb-app-b` targeting `10.10.0.0/16` matches the `ewb-rt-b-private` route pointing back to the same peering connection (`pcx-`), ensuring return packets reach VPC A.
+<img src="screenshots/Screenshot 2026-10-31 135928.png" alt="Test 02 - Forward Ping Success" width="100%" />
+
+*Figure 5.2: Terminal output from `ewb-app-a` pinging `10.20.1.10`, confirming successful routing via peering connection `pcx-0d42ebe35f2e2ad10`.*
+
+---
+
+### Test 03: Reverse Ping (Post-Peering Verification)
+* **Scope:** Validating reverse ICMP packet delivery and symmetric routing.
+* **Result:** `ewb-app-b` (`10.20.1.10`) pinging `ewb-app-a` (`10.10.2.10`) achieves `0% packet loss` with average latency of 0.217 ms.
+
+<img src="screenshots/Screenshot 2026-10-31 141126.png" alt="Test 03 - Reverse Ping Success" width="100%" />
+
+*Figure 5.3: Terminal output from `ewb-app-b` pinging `10.10.2.10`, confirming symmetric bi-directional route propagation.*
+
+---
 
 ### Test 04: Private SSH Access (ProxyJump)
-*(Pending)*
+* **Scope:** End-to-end administrative reachability into completely private workloads without public IPv4 assignment.
+* **Verification:** Local OpenSSH client established jump access through `ewb-bastion` (`65.2.152.151`) into `ewb-app-b` (`10.20.1.10`) on private port 22, verified in Figure 5.3 terminal header.
+
+---
 
 ### Test 05: Controlled Failure & Recovery
 *(Pending)*
