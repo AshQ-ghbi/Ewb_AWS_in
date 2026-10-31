@@ -63,7 +63,8 @@
 
 *Figure 1.4: `ewb-rt-a-private` route list confirming strictly local route (`10.10.0.0/16`) without internet access.*
 
-### 👇
+## 👇
+
 <details>
 <summary>🔍 Click to view intermediate creation & association proofs</summary>
 
@@ -136,7 +137,8 @@ Least-privilege inbound firewall rules applied to isolate workloads:
 
 *Figure 2.4: Running EC2 instances showing 3/3 status checks passed, valid private IPv4 assignments, and public IP isolation on private application hosts[cite: 7, 11, 52].*
 
-### 👇
+## 👇
+
 <details>
 <summary>🔍 Click to view Key Pair setup proof</summary>
 
