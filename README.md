@@ -4,10 +4,12 @@
 
 ## 📄 Project Cover
 * **Name:** Ashish Kumar
+* **College:** Jai Narain College of Technology, Bhopal
 * **Batch:** October 2026
 * **Project Title:** AWS VPC Peering
 * **Region:** ap-south-1 (Mumbai)
-* **Completion Date:** October 2026
+* **Completion Date:** 28 October, 2026
+*  **Mail:** kr.ashish535.hd@gmail.com
 
 ---
 
@@ -61,6 +63,7 @@
 
 *Figure 1.4: `ewb-rt-a-private` route list confirming strictly local route (`10.10.0.0/16`) without internet access.*
 
+### 👇
 <details>
 <summary>🔍 Click to view intermediate creation & association proofs</summary>
 
@@ -133,6 +136,7 @@ Least-privilege inbound firewall rules applied to isolate workloads:
 
 *Figure 2.4: Running EC2 instances showing 3/3 status checks passed, valid private IPv4 assignments, and public IP isolation on private application hosts[cite: 7, 11, 52].*
 
+### 👇
 <details>
 <summary>🔍 Click to view Key Pair setup proof</summary>
 
