@@ -3,14 +3,43 @@
 ## AWS VPC Peering: Private Workload Connectivity
 
 ## 📄 Project Cover
-* **Name:** Ashish Kumar
-* **College:** Jai Narain College of Technology, Bhopal
-* **Batch:** October 2026
-* **Project Title:** AWS VPC Peering
-* **Region:** ap-south-1 (Mumbai)
-* **Completion Date:** 28 October, 2026
-*  **Mail:** kr.ashish535.hd@gmail.com
+- **Name:** Ashish Kumar
+- **College:** Jai Narain College of Technology, Bhopal
+- **Batch:** October 2026
+- **Project Title:** AWS VPC Peering
+- **Region:** ap-south-1 (Mumbai)
+- **Completion Date:** 28 October, 2026
+- **Mail:** kr.ashish535.hd@gmail.com
 
+---
+
+## 📐 Architecture Diagram
+
+```text
++----------------------------------------------------------------------------------------------------+
+| ap-south-1 (Mumbai)                                                                                |
+|                                                                                                    |
+|  +-------------------------------------------------+     +---------------------------------------+ |
+|  | VPC A (10.10.0.0/16)                            |     | VPC B (10.20.0.0/16)                  | |
+|  |                                                 |     |                                       | |
+|  |  +----------------------+                       |     |                                       | |
+|  |  | Public Subnet        |                       |     |                                       | |
+|  |  | 10.10.1.0/24         |                       |     |                                       | |
+|  |  |                      |                       |     |                                       | |
+|  |  | [ ewb-bastion ]      |                       |     |                                       | |
+|  |  | 10.10.1.10 (Public)  |                       |     |                                       | |
+|  |  +----------+-----------+                       |     |                                       | |
+|  |             |                                   |     |                                       | |
+|  |  +----------v-----------+    VPC Peering        |     |  +---------------------------------+  | |
+|  |  | Private Subnet A     |    Connection         |     |  | Private Subnet B                |  | |
+|  |  | 10.10.2.0/24         | (pcx-0d42ebe35f2e2ad10)     |  | 10.20.1.0/24                    |  | |
+|  |  |                      |                       |     |  |                                 |  | |
+|  |  | [ ewb-app-a ]        |<=====================>|<===>|  | [ ewb-app-b ]                   |  | |
+|  |  | 10.10.2.10 (Private) |   Bi-Directional ICMP |     |  | 10.20.1.10 (Private)            |  | |
+|  |  +----------------------+   & ProxyJump SSH     |     |  +---------------------------------+  | |
+|  +-------------------------------------------------+     +---------------------------------------+ |
++----------------------------------------------------------------------------------------------------+
+```
 ---
 
 ## 🏗️ Architecture & Resource Inventory
