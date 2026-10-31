@@ -46,7 +46,7 @@ Least-privilege inbound firewall rules applied to isolate workloads:
 
 *Figure 2.2: `ewb-sg-app-a` inbound rules allowing SSH (TCP 22) from Bastion (`10.10.1.10/32`) and ICMP Echo Request from App-B (`10.20.1.10/32`).*
 
-<img src="screenshots/Screenshot 2026-10-31 113000.png" alt="App B Security Group" width="100%" />
+<img src="screenshots/Screenshot 2026-10-31 113028.png" alt="App B Security Group" width="100%" />
 
 *Figure 2.3: `ewb-sg-app-b` inbound rules allowing SSH (TCP 22) from Bastion (`10.10.1.10/32`) and ICMP Echo Request from App-A (`10.10.2.10/32`).*
 
