@@ -25,30 +25,14 @@
 | `ewb-sg-bastion` | VPC A | TCP 22 from Admin workstation | `sg-097cc93cf9549c0b4` |
 | `ewb-sg-app-a` | VPC A | TCP 22 from Bastion, ICMP from App-B | `sg-042039d8c190f26e7` |
 | `ewb-sg-app-b` | VPC B | TCP 22 from Bastion, ICMP from App-A | `sg-0f87b021d94ea64be` |
-| `ewb-bastion` | `ewb-a-public` | `10.10.1.10` | *(Pending launch)* |
-| `ewb-app-a` | `ewb-a-private` | `10.10.2.10` | *(Pending launch)* |
-| `ewb-app-b` | `ewb-b-private` | `10.20.1.10` | *(Pending launch)* |
+| `ewb-lab` | Key Pair | RSA | `key-09d05457d3d40574c` |
+| `ewb-bastion` | `ewb-a-public` | `10.10.1.10` / `65.2.152.151` | `i-0fd7f5f80df75d803` |
+| `ewb-app-a` | `ewb-a-private` | `10.10.2.10` / No Public IP | `i-0cacc5d4eefc7935d` |
+| `ewb-app-b` | `ewb-b-private` | `10.20.1.10` / No Public IP | `i-0dbb102baba19380e` |
 | `ewb-a-b-peer` | Peering Connection | N/A | *(Pending creation)* |
 
 *Note: All resources are tagged with `Project = EWB-VPC-Peering` and `Student = Ashish Kumar`.*
 
----
-
-## 🛡️ Security Group Configuration
-
-Least-privilege inbound firewall rules applied to isolate workloads:
-
-<img src="screenshots/Screenshot 2026-10-31 111431.png" alt="Bastion Security Group" width="100%" />
-
-*Figure 2.1: `ewb-sg-bastion` inbound rule allowing SSH (TCP 22) exclusively from workstation public IP (`106.222.212.35/32`).*
-
-<img src="screenshots/Screenshot 2026-10-31 112110.png" alt="App A Security Group" width="100%" />
-
-*Figure 2.2: `ewb-sg-app-a` inbound rules allowing SSH (TCP 22) from Bastion (`10.10.1.10/32`) and ICMP Echo Request from App-B (`10.20.1.10/32`).*
-
-<img src="screenshots/Screenshot 2026-10-31 113028.png" alt="App B Security Group" width="100%" />
-
-*Figure 2.3: `ewb-sg-app-b` inbound rules allowing SSH (TCP 22) from Bastion (`10.10.1.10/32`) and ICMP Echo Request from App-A (`10.10.2.10/32`).*
 
 ---
 
@@ -121,9 +105,39 @@ Least-privilege inbound firewall rules applied to isolate workloads:
 
 ---
 
-### Checkpoint 02: EC2 Instances (Public vs Private IPs)
-*(Pending)*
+## 🛡️ Security Group Configuration
 
+Least-privilege inbound firewall rules applied to isolate workloads:
+
+<img src="screenshots/Screenshot 2026-10-31 111431.png" alt="Bastion Security Group" width="100%" />
+
+*Figure 2.1: `ewb-sg-bastion` inbound rule allowing SSH (TCP 22) exclusively from workstation public IP (`106.222.212.35/32`).*
+
+<img src="screenshots/Screenshot 2026-10-31 112110.png" alt="App A Security Group" width="100%" />
+
+*Figure 2.2: `ewb-sg-app-a` inbound rules allowing SSH (TCP 22) from Bastion (`10.10.1.10/32`) and ICMP Echo Request from App-B (`10.20.1.10/32`).*
+
+<img src="screenshots/Screenshot 2026-10-31 113028.png" alt="App B Security Group" width="100%" />
+
+*Figure 2.3: `ewb-sg-app-b` inbound rules allowing SSH (TCP 22) from Bastion (`10.10.1.10/32`) and ICMP Echo Request from App-A (`10.10.2.10/32`).*
+
+
+
+### Checkpoint 02: EC2 Instances (Public vs Private Workload Isolation)
+* **Scope:** Verification of compute instance provisioning and IP exposure[cite: 7, 11].
+* **Verification:** `ewb-bastion` provisioned in public subnet with public IP `65.2.152.151`; `ewb-app-a` and `ewb-app-b` deployed strictly private with no public IPv4 addresses assigned[cite: 4, 7, 11, 52].
+
+<img src="screenshots/Screenshot 2026-10-31 123411.png" alt="Checkpoint 02 - EC2 Instances Inventory and Isolation" width="100%" />
+
+*Figure 2.4: Running EC2 instances showing 3/3 status checks passed, valid private IPv4 assignments, and public IP isolation on private application hosts[cite: 7, 11, 52].*
+
+<details>
+<summary>🔍 Click to view Key Pair setup proof</summary>
+
+#### EC2 Key Pair Creation
+<img src="screenshots/Screenshot 2026-10-31 114203.png" alt="EC2 Key Pair" width="100%" />
+
+</details>
 ---
 
 ### Checkpoint 03: Active Peering Connection
