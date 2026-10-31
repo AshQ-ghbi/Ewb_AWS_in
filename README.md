@@ -278,6 +278,38 @@ To ensure complete resource lifecycle management and eliminate cloud costs, all 
 
 ---
 
+## Viva & Concept Questions
+Q1: Why must CIDR blocks between peered VPCs be strictly non-overlapping?
+
+Answer: IP routing relies on longest-prefix and unambiguous route lookups. If VPC A and VPC B shared identical or overlapping CIDR blocks (e.g., both using 10.10.0.0/16), a host cannot determine whether destination packets belong to the local network or across the peering link. AWS VPC Peering prevents creating peering connections between VPCs with overlapping CIDRs at the API level to maintain routing determinism.
+
+Q2: What is the difference between Security Groups and Network ACLs in the context of VPC Peering?
+
+Answer:
+Security Groups operate at the virtual network interface (ENI) / instance level and are stateful. If inbound traffic (like ICMP Echo or SSH) is permitted, return traffic is automatically allowed regardless of outbound rules. Security groups can reference IPs across peering links.
+
+Network ACLs (NACLs) operate at the subnet boundary level and are stateless. Both inbound and outbound rules must explicitly permit the traffic and ephemeral return ports (1024-65535).
+
+Q3: Why is VPC Peering considered non-transitive? Give a real-world scenario.
+
+Answer: Non-transitive routing means traffic cannot hop through an intermediate VPC to reach a third destination. If VPC A is peered with VPC B, and VPC B is peered with VPC C:
+
+VPC A cannot communicate with VPC C through VPC B.
+
+Similarly, private workloads in VPC B cannot route out to the public internet through an Internet Gateway attached to VPC A via peering.
+For transitive hub-and-spoke multi-VPC designs, AWS Transit Gateway is required instead of VPC Peering.
+
+Q4: How does SSH ProxyJump work, and why is it preferred over traditional SSH Agent Forwarding?
+
+Answer: ProxyJump (-J or ProxyJump in ~/.ssh/config) establishes an encrypted SSH tunnel to the target host via the intermediate bastion host using standard port forwarding (stdin/stdout).
+It is strongly preferred because:
+
+Zero Key Exposure: The private key never leaves the client machine, nor is it stored or decrypted on the intermediate bastion server.
+
+Attack Surface Reduction: Even if the bastion host is compromised, attackers cannot access forwarded SSH agent sockets or decrypt active key sessions.
+
+
+
 ## 💡 What I Learned
 
 1. **Non-Overlapping CIDRs Are Mandatory:** AWS VPC Peering requires distinct IPv4 CIDRs (`10.10.0.0/16` vs `10.20.0.0/16`) to establish route table associations without IP collisions.
