@@ -152,8 +152,15 @@ Least-privilege inbound firewall rules applied to isolate workloads:
 
 ## 🧪 Testing Evidence
 
-### Test 01: Baseline Failure (Pre-Peering)
-*(Pending)*
+### Test 01: Baseline Failure (Pre-Peering Isolation)
+* **Scope:** Proving private subnets across unpeered VPCs cannot communicate by default.
+* **Result:** `ewb-app-a` (`10.10.2.10`) targeting `ewb-app-b` (`10.20.1.10`) results in `100% packet loss`.
+
+<img src="screenshots/Screenshot 2026-10-31 130830.png" alt="Test 01 - Pre-Peering Baseline Failure" width="100%" />
+
+*Figure 3.1: Terminal output from `ewb-app-a` executing `ping -c 4 10.20.1.10`, demonstrating complete packet loss prior to VPC peering.*
+
+---
 
 ### Test 02 & 03: Bi-Directional Ping Success (Post-Peering)
 *(Pending)*
