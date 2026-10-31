@@ -22,12 +22,33 @@
 | `ewb-rt-a-public` | VPC A Route Table | `0.0.0.0/0` -> IGW | `rtb-0e7f691a481e174bc` |
 | `ewb-rt-a-private` | VPC A Route Table | Local only | `rtb-05fb2d5e9ea307649` |
 | `ewb-rt-b-private` | VPC B Route Table | Local only | `rtb-034e9bc7e8c98ad2e` |
+| `ewb-sg-bastion` | VPC A | TCP 22 from Admin workstation | `sg-097cc93cf9549c0b4` |
+| `ewb-sg-app-a` | VPC A | TCP 22 from Bastion, ICMP from App-B | `sg-042039d8c190f26e7` |
+| `ewb-sg-app-b` | VPC B | TCP 22 from Bastion, ICMP from App-A | `sg-0f87b021d94ea64be` |
 | `ewb-bastion` | `ewb-a-public` | `10.10.1.10` | *(Pending launch)* |
 | `ewb-app-a` | `ewb-a-private` | `10.10.2.10` | *(Pending launch)* |
 | `ewb-app-b` | `ewb-b-private` | `10.20.1.10` | *(Pending launch)* |
 | `ewb-a-b-peer` | Peering Connection | N/A | *(Pending creation)* |
 
 *Note: All resources are tagged with `Project = EWB-VPC-Peering` and `Student = Ashish Kumar`.*
+
+---
+
+## 🛡️ Security Group Configuration
+
+Least-privilege inbound firewall rules applied to isolate workloads:
+
+<img src="screenshots/Screenshot 2026-10-31 111431.png" alt="Bastion Security Group" width="100%" />
+
+*Figure 2.1: `ewb-sg-bastion` inbound rule allowing SSH (TCP 22) exclusively from workstation public IP (`106.222.212.35/32`).*
+
+<img src="screenshots/Screenshot 2026-10-31 112110.png" alt="App A Security Group" width="100%" />
+
+*Figure 2.2: `ewb-sg-app-a` inbound rules allowing SSH (TCP 22) from Bastion (`10.10.1.10/32`) and ICMP Echo Request from App-B (`10.20.1.10/32`).*
+
+<img src="screenshots/Screenshot 2026-10-31 113000.png" alt="App B Security Group" width="100%" />
+
+*Figure 2.3: `ewb-sg-app-b` inbound rules allowing SSH (TCP 22) from Bastion (`10.10.1.10/32`) and ICMP Echo Request from App-A (`10.10.2.10/32`).*
 
 ---
 
