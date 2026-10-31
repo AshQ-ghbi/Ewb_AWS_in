@@ -39,59 +39,63 @@
 * **Verification:** `ewb-a-public` explicitly associated with `ewb-rt-a-public` containing default route `0.0.0.0/0` targeting `ewb-igw-a`; `ewb-a-private` and `ewb-b-private` explicitly associated with their respective private route tables containing only local routes.
 
 #### Primary Evidence
-![Checkpoint 01A - Public Route Table Routes](screenshots/Screenshot 2026-10-31 102103.png)
+<img src="screenshots/Screenshot 2026-10-31 102103.png" alt="Checkpoint 01A - Public Route Table Routes" width="100%" />
+
 *Figure 1.1: Route tables overview with `ewb-rt-a-public` selected, showing default route `0.0.0.0/0` targeting `ewb-igw-a`.*
 
-![Checkpoint 01B - Public Subnet Association](screenshots/Screenshot 2026-10-31 102245.png)
+<img src="screenshots/Screenshot 2026-10-31 102245.png" alt="Checkpoint 01B - Public Subnet Association" width="100%" />
+
 *Figure 1.2: `ewb-rt-a-public` explicit subnet association to `ewb-a-public` (`10.10.1.0/24`).*
 
-![Checkpoint 01C - Private Subnet Association](screenshots/Screenshot 2026-10-31 102445_2.png)
+<img src="screenshots/Screenshot 2026-10-31 102445_2.png" alt="Checkpoint 01C - Private Subnet Association" width="100%" />
+
 *Figure 1.3: `ewb-rt-a-private` explicit subnet association to `ewb-a-private` (`10.10.2.0/24`).*
 
-![Checkpoint 01D - Private Route Local Only](screenshots/Screenshot 2026-10-31 102403.png)
+<img src="screenshots/Screenshot 2026-10-31 102403.png" alt="Checkpoint 01D - Private Route Local Only" width="100%" />
+
 *Figure 1.4: `ewb-rt-a-private` route list confirming strictly local route (`10.10.0.0/16`) without internet access.*
 
 <details>
 <summary>🔍 Click to view intermediate creation & association proofs</summary>
 
 #### VPC A Creation
-![VPC A Details](screenshots/Screenshot 2026-10-31 002102_2.jpg)
+<img src="screenshots/Screenshot 2026-10-31 002102_2.jpg" alt="VPC A Details" width="100%" />
 
 #### VPC B Creation
-![VPC B Details](screenshots/Screenshot 2026-10-31 002617_2.jpg)
+<img src="screenshots/Screenshot 2026-10-31 002617_2.jpg" alt="VPC B Details" width="100%" />
 
 #### VPC A Subnets Creation
-![VPC A Subnets](screenshots/Screenshot 2026-10-31 003917_2.png)
+<img src="screenshots/Screenshot 2026-10-31 003917_2.png" alt="VPC A Subnets" width="100%" />
 
 #### VPC B Subnet Creation
-![VPC B Subnet](screenshots/Screenshot 2026-10-31 004524_2.png)
+<img src="screenshots/Screenshot 2026-10-31 004524_2.png" alt="VPC B Subnet" width="100%" />
 
 #### Internet Gateway Creation
-![IGW Creation](screenshots/Screenshot 2026-10-31 004748_2.png)
+<img src="screenshots/Screenshot 2026-10-31 004748_2.png" alt="IGW Creation" width="100%" />
 
 #### Internet Gateway Attachment
-![IGW Attached](screenshots/Screenshot 2026-10-31 004859_2.png)
+<img src="screenshots/Screenshot 2026-10-31 004859_2.png" alt="IGW Attached" width="100%" />
 
 #### Public Route Table Creation
-![Public Route Table Initial](screenshots/Screenshot 2026-10-31 005447_2.png)
+<img src="screenshots/Screenshot 2026-10-31 005447_2.png" alt="Public Route Table Initial" width="100%" />
 
 #### Public Route Table Subnet Association
-![Public Route Table Association](screenshots/Screenshot 2026-10-31 005556_2.png)
+<img src="screenshots/Screenshot 2026-10-31 005556_2.png" alt="Public Route Table Association" width="100%" />
 
 #### Public Route Table Update Success
-![Public Route Update](screenshots/Screenshot 2026-10-31 005722_2.png)
+<img src="screenshots/Screenshot 2026-10-31 005722_2.png" alt="Public Route Update" width="100%" />
 
 #### Private Route Table A Creation
-![Private RT A Created](screenshots/Screenshot 2026-10-31 005831.png)
+<img src="screenshots/Screenshot 2026-10-31 005831.png" alt="Private RT A Created" width="100%" />
 
 #### Private Route Table A Association Success
-![Private RT A Associated](screenshots/Screenshot 2026-10-31 005912.png)
+<img src="screenshots/Screenshot 2026-10-31 005912.png" alt="Private RT A Associated" width="100%" />
 
 #### Private Route Table B Creation
-![Private RT B Created](screenshots/Screenshot 2026-10-31 010101.png)
+<img src="screenshots/Screenshot 2026-10-31 010101.png" alt="Private RT B Created" width="100%" />
 
 #### Private Route Table B Association Success
-![Private RT B Associated](screenshots/Screenshot 2026-10-31 101737.png)
+<img src="screenshots/Screenshot 2026-10-31 101737.png" alt="Private RT B Associated" width="100%" />
 
 </details>
 
