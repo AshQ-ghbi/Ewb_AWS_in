@@ -15,24 +15,87 @@
 
 | Resource Name | VPC / Subnet | IPv4 CIDR / Address | Actual AWS ID |
 | :--- | :--- | :--- | :--- |
-| `ewb-vpc-a` | VPC A | `10.10.0.0/16` | `vpc-` (TBD) |
-| `ewb-a-public` | VPC A / Public | `10.10.1.0/24` | `subnet-` (TBD) |
-| `ewb-a-private`| VPC A / Private| `10.10.2.0/24` | `subnet-` (TBD) |
-| `ewb-vpc-b` | VPC B | `10.20.0.0/16` | `vpc-` (TBD) |
-| `ewb-b-private`| VPC B / Private| `10.20.1.0/24` | `subnet-` (TBD) |
-| `ewb-bastion` | `ewb-a-public` | `10.10.1.10` | `i-` (TBD) |
-| `ewb-app-a` | `ewb-a-private`| `10.10.2.10` | `i-` (TBD) |
-| `ewb-app-b` | `ewb-b-private`| `10.20.1.10` | `i-` (TBD) |
-| `ewb-a-b-peer` | Peering | N/A | `pcx-` (TBD) |
+| `ewb-vpc-a` | VPC A | `10.10.0.0/16` | `vpc-0e454b4479b778e07` |
+| `ewb-a-public` | VPC A / Public | `10.10.1.0/24` | `subnet-0dc978e9f2fec4ec2` |
+| `ewb-a-private` | VPC A / Private | `10.10.2.0/24` | `subnet-0d68aa0abb7aa2a30` |
+| `ewb-vpc-b` | VPC B | `10.20.0.0/16` | `vpc-08f4b10c2877ec749` |
+| `ewb-b-private` | VPC B / Private | `10.20.1.0/24` | `subnet-0e3207c0ca1471599` |
+| `ewb-igw-a` | VPC A Gateway | N/A | `igw-0c75f7abe55a3a5e9` |
+| `ewb-rt-a-public` | VPC A Route Table | `0.0.0.0/0` -> IGW | `rtb-0e7f691a481e174bc` |
+| `ewb-rt-a-private`| VPC A Route Table | Local only | `rtb-05fb2d5e9ea307649` |
+| `ewb-rt-b-private`| VPC B Route Table | Local only | `rtb-034e9bc7e8c98ad2e` |
+| `ewb-bastion` | `ewb-a-public` | `10.10.1.10` | *(Pending launch)* |
+| `ewb-app-a` | `ewb-a-private` | `10.10.2.10` | *(Pending launch)* |
+| `ewb-app-b` | `ewb-b-private` | `10.20.1.10` | *(Pending launch)* |
+| `ewb-a-b-peer` | Peering Connection | N/A | *(Pending creation)* |
 
 *Note: All resources are tagged with `Project = EWB-VPC-Peering` and `Student = Ashish Kumar`.*
 
 ---
-
 ## 📸 Checkpoints & Verification
 
 ### Checkpoint 01: Subnet Associations & Public Default Route
-**(Placeholder: Insert Screenshot 01 - showing subnets and IGW route)**
+* **Scope:** Network Foundation & Custom Route Tables for VPC A & VPC B.
+* **Verification:** `ewb-a-public` explicitly associated with `ewb-rt-a-public` containing default route `0.0.0.0/0` targeting `ewb-igw-a`; `ewb-a-private` and `ewb-b-private` explicitly associated with their respective private route tables containing only local routes.
+
+#### Primary Evidence
+![Checkpoint 01A - Public Route Table Routes](screenshots/Screenshot 2026-10-31 102103.png)
+*Figure 1.1: Route tables overview with `ewb-rt-a-public` selected, showing default route `0.0.0.0/0` targeting `ewb-igw-a`.*
+
+![Checkpoint 01B - Public Subnet Association](screenshots/Screenshot 2026-10-31 102245.png)
+*Figure 1.2: `ewb-rt-a-public` explicit subnet association to `ewb-a-public` (`10.10.1.0/24`).*
+
+![Checkpoint 01C - Private Subnet Association](screenshots/Screenshot 2026-10-31 102445_2.png)
+*Figure 1.3: `ewb-rt-a-private` explicit subnet association to `ewb-a-private` (`10.10.2.0/24`).*
+
+![Checkpoint 01D - Private Route Local Only](screenshots/Screenshot 2026-10-31 102403.png)
+*Figure 1.4: `ewb-rt-a-private` route list confirming strictly local route (`10.10.0.0/16`) without internet access.*
+
+<details>
+<summary>🔍 Click to view intermediate creation & association proofs</summary>
+
+#### VPC A Creation
+![VPC A Details](screenshots/Screenshot 2026-10-31 002102_2.jpg)
+
+#### VPC B Creation
+![VPC B Details](screenshots/Screenshot 2026-10-31 002617_2.jpg)
+
+#### VPC A Subnets Creation
+![VPC A Subnets](screenshots/Screenshot 2026-10-31 003917_2.png)
+
+#### VPC B Subnet Creation
+![VPC B Subnet](screenshots/Screenshot 2026-10-31 004524_2.png)
+
+#### Internet Gateway Creation
+![IGW Creation](screenshots/Screenshot 2026-10-31 004748_2.png)
+
+#### Internet Gateway Attachment
+![IGW Attached](screenshots/Screenshot 2026-10-31 004859_2.png)
+
+#### Public Route Table Creation
+![Public Route Table Initial](screenshots/Screenshot 2026-10-31 005447_2.png)
+
+#### Public Route Table Subnet Association
+![Public Route Table Association](screenshots/Screenshot 2026-10-31 005556_2.png)
+
+#### Public Route Table Update Success
+![Public Route Update](screenshots/Screenshot 2026-10-31 005722_2.png)
+
+#### Private Route Table A Creation
+![Private RT A Created](screenshots/Screenshot 2026-10-31 005831.png)
+
+#### Private Route Table A Association Success
+![Private RT A Associated](screenshots/Screenshot 2026-10-31 005912.png)
+
+#### Private Route Table B Creation
+![Private RT B Created](screenshots/Screenshot 2026-10-31 010101.png)
+
+#### Private Route Table B Association Success
+![Private RT B Associated](screenshots/Screenshot 2026-10-31 101737.png)
+
+</details>
+
+---
 
 ### Checkpoint 02: EC2 Instances (Public vs Private IPs)
 **(Placeholder: Insert Screenshot 02 - showing App-A and App-B have no public IP)**
