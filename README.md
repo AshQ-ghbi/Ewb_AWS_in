@@ -1,4 +1,6 @@
-# AWS VPC Peering: Private Workload Connectivity
+# Ewb AWS Internship - Project
+
+## AWS VPC Peering: Private Workload Connectivity
 
 ## 📄 Project Cover
 * **Name:** Ashish Kumar
@@ -29,7 +31,7 @@
 | `ewb-bastion` | `ewb-a-public` | `10.10.1.10` / `65.2.152.151` | `i-0fd7f5f80df75d803` |
 | `ewb-app-a` | `ewb-a-private` | `10.10.2.10` / No Public IP | `i-0cacc5d4eefc7935d` |
 | `ewb-app-b` | `ewb-b-private` | `10.20.1.10` / No Public IP | `i-0dbb102baba19380e` |
-| `ewb-a-b-peer` | Peering Connection | N/A | Active |
+| `ewb-a-b-peer` | Peering Connection | N/A | `pcx-0d42ebe35f2e2ad10` |
 
 *Note: All resources are tagged with `Project = EWB-VPC-Peering` and `Student = Ashish Kumar`.*
 
@@ -203,16 +205,47 @@ Least-privilege inbound firewall rules applied to isolate workloads:
 ---
 
 ### Test 05: Controlled Failure & Recovery
-*(Pending)*
+* **Scope:** Validating security group stateful inspection and enforcement across peering connections.
+* **Failure Execution:** Inbound ICMP Echo Request rule removed from `ewb-sg-app-b`. Ping from `ewb-app-a` drops to `100% packet loss` despite active peering connection and route tables.
+* **Recovery Execution:** Inbound ICMP Echo Request rule re-added (`10.10.2.10/32` allowed). Connectivity is restored with `0% packet loss`.
 
-**Controlled Failure Explanation:**
-When the inbound ICMP Echo request rule is removed from `ewb-sg-app-b`, the pings from `ewb-app-a` time out. Because AWS security groups are stateful and deny traffic by default, explicit inbound rules must exist for the specific source IP (`10.10.2.10/32`). Re-adding the rule restores connectivity.
+#### Controlled Failure Evidence (ICMP Inbound Rule Dropped)
+<img src="screenshots/Screenshot 2026-10-31 142558.png" alt="Test 05 - Controlled Failure" width="100%" />
+
+*Figure 5.4: Terminal output from `ewb-app-a` showing 100% packet loss after removing ICMP inbound rule from `ewb-sg-app-b`.*
+
+#### Controlled Recovery Evidence (ICMP Inbound Rule Restored)
+<img src="screenshots/Screenshot 2026-10-31 143026.png" alt="Test 05 - Controlled Recovery" width="100%" />
+
+*Figure 5.5: Terminal output from `ewb-app-a` showing immediate restoration to 0% packet loss after re-adding the ICMP inbound rule.*
 
 ---
 
-## 🧹 Cleanup & Conclusion
+## 🧹 Cleanup & Teardown
 
-*(Pending)*
+To ensure complete resource lifecycle management and eliminate cloud costs, all lab infrastructure was terminated in strict reverse dependency order:
 
-**What I Learned:**
-*(To be completed at the end of the lab)*.
+<img src="screenshots/Screenshot 2026-10-31 143613.png" alt="EC2 Instances Terminated" width="100%" />
+
+*Figure 6.1: Termination of all EC2 compute workloads (`ewb-bastion`, `ewb-app-a`, `ewb-app-b`).*
+
+<img src="screenshots/Screenshot 2026-10-31 143759.png" alt="Peering Connection Deleted" width="100%" />
+
+*Figure 6.2: Peering connection `pcx-0d42ebe35f2e2ad10` deleted along with its 3 active routes.*
+
+<img src="screenshots/Screenshot 2026-10-31 144116.png" alt="VPC B Deleted" width="100%" />
+
+*Figure 6.3: Deletion of `ewb-vpc-b` along with associated security group, subnet, and private route table.*
+
+<img src="screenshots/Screenshot 2026-10-31 144420.png" alt="Subnets Cleared" width="100%" />
+
+*Figure 6.4: VPC subnets completely de-provisioned.*
+
+---
+
+## 💡 What I Learned
+
+1. **Non-Overlapping CIDRs Are Mandatory:** AWS VPC Peering requires distinct IPv4 CIDRs (`10.10.0.0/16` vs `10.20.0.0/16`) to establish route table associations without IP collisions.
+2. **Peering Connections Are Non-Transitive:** A peering link between VPC A and VPC B does not grant transitive access to external internet gateways or third-party VPCs.
+3. **Dual Layer Requirements (Routing + Firewall):** A peering connection alone does not forward traffic. Both explicit destination CIDR entries in custom Route Tables and stateful Security Group rules must align.
+4. **Bastion Host ProxyJump Pattern:** Secure cloud operations isolate backend databases and compute nodes entirely without public IPv4 addresses. OpenSSH `ProxyJump` allows secure zero-footprint jump tunneling without storing private keys on intermediate bastion servers.
